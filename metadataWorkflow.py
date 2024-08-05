@@ -4,11 +4,11 @@ import frontmatter
 
 def process_markdown_files(json_file):
 
-	files = [os.path.join("blogs", file) for file in os.listdir("blogs") if os.path.isfile(os.path.join("blogs", file))]
+	files = [file for file in os.listdir("blogs") if os.path.isfile(os.path.join("blogs", file))]
 	data = []
 	for md_file in files:
 		try:
-			with open(md_file, 'r', encoding='utf-8') as f:
+			with open(os.path.join("blogs", md_file), 'r', encoding='utf-8') as f:
 				post = frontmatter.loads(f.read())
 		except Exception as e:
 			print(f"Error processing {md_file}: {e}")
