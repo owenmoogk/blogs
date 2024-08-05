@@ -2,8 +2,8 @@ name: Update Metadata
 
 on:
   push:
-    paths:
-      - "blogs/**"
+    branches:
+    - main
 
 jobs:
   update_metadata:
