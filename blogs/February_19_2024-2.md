@@ -1,7 +1,9 @@
 ---
 title: Blame vs Solutions; how some problems can only be solved without consequences.
 date: Feb 19, 2024
-tags: ["reflection"]
+tags:
+  - reflection
+image: airport.png
 ---
 
 ## Blame vs Solutions; how some problems can only be solved without consequences.

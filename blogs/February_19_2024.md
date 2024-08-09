@@ -1,7 +1,9 @@
 ---
 title: Blogging… The early 2000s, decentralized, RSS baby.
 date: Feb 19, 2024
-tags: ["reflection"]
+tags:
+  - reflection
+image: rss.png
 ---
 
 ## Blogging… The early 2000s, decentralized, RSS baby.
