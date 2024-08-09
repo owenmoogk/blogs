@@ -17,10 +17,12 @@ def process_markdown_files(json_file):
 		title = post.get("title", "Untitled")
 		tags = post.get("tags", [])
 		date = post.get("date")
+		image = post.get("image")
 		entry = {
 			"date": date,
 			"title": title,
 			"tags": tags,
+			"image": "images/" + image,
 			"file_path": "https://owenmoogk.github.io/blogs/" + md_file,
 			"file_name": md_file.replace(".md", "")
 		}
