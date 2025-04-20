@@ -41,11 +41,11 @@ V2 of my website was the first with a project portfolio, and I made it using pur
 
 I had a project homepage, with a picture, name, and description for each project:
 
-![](https://cdn-images-1.medium.com/max/3270/1*O89s9T8kCFloM5lkczwxAQ.png)
+![](v2-projects.png)
 
 And each project had it’s details page:
 
-![](https://cdn-images-1.medium.com/max/2458/1*PXjx_pCPBJNLUQhZC20f3Q.png)
+![](v2-project-details.png)
 
 The issues with this:
 
@@ -136,14 +136,30 @@ Except for the XML link used as an argument when loading the project page, I had
 
 Lastly, XML is not fast to write/edit. This is what a title, some images, and a link look like in this XML format. It’s pretty verbose:
 
-![](https://cdn-images-1.medium.com/max/2000/1*mFfNdyEcBujbxeO_Ok4T6Q.png)
+```xml
+<block>
+	<title>Overview</title>
+	<text>
+		I am a part of the
+		<a href="https://2702rebels.com" class="blinks" target="_blank">2702 Rebels</a>
+		FIRST Robotics team, and we just finished our 2020 robot, designed to compete in the
+		<a href="https://www.youtube.com/watch?v=gmiYWTmFRVE" class="blinks" target="_blank">2020 Infinite Recharge</a>
+		robotics competition. This page goes in depth into our robot, with some of the specs. I was the lead student on the feeder subsystem, and also worked on the intake. Check it out in action in our
+		<a href="https://www.youtube.com/watch?v=tN_Rt3pt054" class="blinks" target="_blank">reveal video</a>
+		. Unfortunatley, due to COVID-19, this robot has not been able to compete yet.
+	</text>
+	<image>img/robot.png</image>
+</block>
+<block>
+	<title>Competition</title>
+	<text>Cancelled due to COVID-19</text>
+</block>
+```
 
 So to summarize, this was not a good solution because:
 
 * Projects needed to still have an HTML page (with entirely repeated code)
-
 * My Javascript loading method used HTML strings (*horrible* practice)
-
 * XML is slow to write and edit.
 
 What’s better than XML…?
@@ -156,7 +172,35 @@ JSON is better for this application because it doesn’t require opening and clo
 
 It turned that previous mess of tags into this:
 
-![](https://cdn-images-1.medium.com/max/2000/1*8XNY70qdPJ69VMPuQCIrdA.png)
+```json
+"page-head": {
+      "page-title": "2702 Rebels 2020 Robot",
+      "date": "March 24, 2020"
+    },
+    "block": [
+      {
+        "title": "Overview",
+        "text": [
+          "I am a part of the",
+          {
+            "href": "https://2702rebels.com",
+            "text": "2702 Rebels"
+          },
+          "FIRST Robotics team, and we just finished our 2020 robot, designed to compete in the",
+          {
+            "href":"https://www.youtube.com/watch?v=gmiYWTmFRVE",
+            "text": "2020 Infinite Recharge"
+          },
+          "robotics competition. This page goes in depth into our robot, with some of the specs. I was the lead student on the feeder subsystem, and also worked on the intake. Check it out in action in our",
+          {
+            "href": "https://www.youtube.com/watch?v=tN_Rt3pt054",
+            "text": "reveal video"
+          },
+          ". Unfortunatley, due to COVID-19, this robot has not been able to compete yet."
+        ],
+        "image": "robot.png"
+      },
+```
 
 All of the structuring tags were replaced by brackets, allowing them to be parsed and implemented easily. This coincided with my switch to ReactJS and allowed me to create one project page, which loaded data for whatever project was requested. This enabled me to delete A LOT of HTML code, that was repeated all over, in favor of a singular component. This is why React is better.
 
@@ -197,13 +241,13 @@ function parseMarkdown(data: string) {
 
 Lastly, I load the metadata from the JSON file... and, it looks pretty good! You can see at the top the metadata being loaded, and below is the markdown content.
 
-![](https://cdn-images-1.medium.com/max/2000/1*0SUzK5qeCuHyZj7V6jfQxQ.png)
+![](metadata-loading.png)
 
-![](https://cdn-images-1.medium.com/max/2000/1*DpE6yrxYrBdW8nwWAGsHUg.png)
+![](project-details.png)
 
 One more thing. Since I’m a nerd, sometimes I make 3D renders. And *sometimes*, I layer them on top of each other so they’re interactive, like this:
 
-![](https://cdn-images-1.medium.com/max/2000/1*vNNs4NOxXjlGIX8U4e2dmw.png)
+![](project-slider.png)
 
 I want to keep this feature, however this can’t be done in markdown. Luckily, Showdown has a feature for this. I mapped the H4 onto a custom component, so I could input something like this: #### overlay1.png,overlay2.png , and wrote a custom handle so the website would load the image overlay renderer. It looks like this:
 ```jsx
@@ -238,11 +282,10 @@ I want to keep this feature, however this can’t be done in markdown. Luckily, 
 ```
 
 This tells it that when it sees an H4, it will pass it to my custom handler, which will render the ReactCompareImage component instead of a regular H4. This way, I maintain my custom functionality while not having to make a custom parser, or use JSON!
-> “Great success!!” — Borat
 
 Phew, that was a lot. It’s a bit all over the place, but that was the journey I followed. To recap, my ‘optimal’ (at least so far) project page flow is as follows:
 
-* Project metadata stored in JSON\
+* Project metadata stored in JSON
 * Project content stored in markdown
 * Project directory, just a list of all of the projects (JSON)
 * React, using the ShowdownJS to render, and a custom handler for the H4, which allows for custom component rendering.
@@ -250,7 +293,7 @@ Phew, that was a lot. It’s a bit all over the place, but that was the journey 
 Why this is optimal (for me):
 
 * Adding a project is super easy (add to directory, make metadata, write content)
-* It’s flexible. Everywhere that I need projects ( /projects , /projectDirectory , /project/[projectName] ), the data is fully accessible. Since it’s all available at https://owenmoogk.github.io/assets/projects , even other projects that I have made can use this data, on different websites and domains.
+* It’s flexible. Everywhere that I need projects ( /projects , /projectDirectory , /project/\[projectName\] ), the data is fully accessible. Since it’s all available at https://owenmoogk.github.io/assets/projects, even other projects that I have made can use this data, on different websites and domains.
 * Pages are dynamic. I can change the featured flag on a project, and it changes where it loads on the website. Similarly, I can change the date or tech used, and the searching features respond to that.
 * When making a project, I really need to do the bare minimum. My goal was to ONLY be adding content (and not boilerplate code), which is almost fully true (the only exceptions to this are adding to the directory, and a few JSON brackets in the metadata, however, this is acceptable for me).
 ### GitHub Integration
@@ -261,7 +304,7 @@ Similarly, if a project has an associated website, it can be turned on via a fla
 
 So, a project like my F1 Stats project will have a GitHub link and an external website link generated automatically on the project page, only by modifying one flag in the metadata:
 
-![Notice the “Github” and “External Link” buttons.](https://cdn-images-1.medium.com/max/2000/1*lszy1hY4uP9yFXt36MXZFQ.png)
+![Notice the “Github” and “External Link” buttons.](external-link.png)
 
 Ok, that’s all I have to say for projects. It’s a lot, but definitely the most complex part of the website, that has also gone through the most iterations.
 
@@ -297,7 +340,7 @@ This leaves LinkedIn and my website. I want them both to be almost identical and
 
 Turns out, there’s a way to do that! [joshuatz](https://github.com/joshuatz) made a [LinkedIn to JSON Chrome extension](https://chromewebstore.google.com/detail/json-resume-exporter/caobgmmcpklomkcckaenhjlokpmfbdec)! This automatically downloads the entirety of one’s LinkedIn to a JSON file, to be used wherever! This means, that I can update my LinkedIn, download it, and then just chuck the file into the assets folder of my website, and my website is updated! Not bad!
 
-![Joshua Tzucker’s Conversion Tool](https://cdn-images-1.medium.com/max/2560/0*FW4_ck91ueJZ3azR)
+![Joshua Tzucker’s Conversion Tool](profile-to-json.png)
 
 There’s some code to put the data into React components, it’s not hard. If you want you can find it on [my GitHub](http://github.com/owenmoogk).
 
@@ -335,7 +378,7 @@ Another idea that I’ve had is to to add a travel page. I’m not going to beco
 
 But… those are all of the goals, problems, and solutions I worked through when building this. It might be similar for you… or it might be completely different. Either way: time to get coding!
 
-![](https://cdn-images-1.medium.com/max/2000/0*NIp5waNg9oZcB4yF.gif)
+![](cat-typeing.gif)
 
 ## Bonus: Personal Improvements
 
@@ -343,14 +386,14 @@ I don’t think many people will read this (let alone make it this far), but if 
 
 As some motivation (and a *little flex* of how far I’ve come), here are some images of terrible designs of previous websites).
 
-![Version 1 Homepage (what a header🤦‍♂️)](https://cdn-images-1.medium.com/max/3786/1*SY_RgCaFRhXUXK649gTLxA.png)
+![Version 1 Homepage (what a header🤦‍♂️)](website-v1.png)
 
-![Version 3 Project Page (not sure what I was thinking with a background on the navbar 😅)](https://cdn-images-1.medium.com/max/3744/1*q_kGmxO1a9IAdkfG0oEtAA.png)
+![Version 3 Project Page (not sure what I was thinking with a background on the navbar 😅)](website-v3.png)
 
-![Version 4 projects page (it’s actually not terrible… but doesn’t fit the vibe)](https://cdn-images-1.medium.com/max/3802/1*ReR1GU8SQhRJtqJ5pTd5DQ.png)
+![Version 4 projects page (it’s actually not terrible… but doesn’t fit the vibe)](v4-projects.png)
 
-![Version 4 contact page (in fairness… it was more colorful!)](https://cdn-images-1.medium.com/max/2346/1*ynZ9L67WBCJcWideTZ1NBg.png)
+![Version 4 contact page (in fairness… it was more colorful!)](v4-contact.png)
 
-![Version 5 Project Page (the colors are determined based on the tech stack… something I’m actually considering re-implementing)](https://cdn-images-1.medium.com/max/3800/1*JYSuB0vfaxS1l-gGwhpTuw.png)
+![Version 5 Project Page (the colors are determined based on the tech stack… something I’m actually considering re-implementing)](v5-projects.png)
 
 So… varying degress of success. But, it’s about the journey, learning, and experience. That’s 8 website versions down, so here’s to the next 8 versions!

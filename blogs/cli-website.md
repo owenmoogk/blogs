@@ -30,9 +30,9 @@ By using the same homepage, it probably also makes fetch requests easier too (th
 
 ### Off to the Races
 
-As with *almost all *projects, I got off to the races. I knew this was bad… but I thought I had it figured out. I did a good job of getting ChatGPT to write the general page layout and CSS, and had to do some fiddling with the input focus, because if the user clicked off of the input box and started typing, the website still had to recognize it. And it actually looked decent!
+As with *almost all* projects, I got off to the races. I knew this was bad… but I thought I had it figured out. I did a good job of getting ChatGPT to write the general page layout and CSS, and had to do some fiddling with the input focus, because if the user clicked off of the input box and started typing, the website still had to recognize it. And it actually looked decent!
 
-![Using some basic commands (ls, help, about)](https://cdn-images-1.medium.com/max/3762/1*a4ObB1cUa60wdo0BZ283GQ.png)
+![Using some basic commands (ls, help, about)](images/cli-demo.png)
 
 Some small issues, but generally going well! The bigger issue: I didn’t have an idea of how I wanted to implement file paths.
 
@@ -44,9 +44,9 @@ I went to my first Socratica working session this week! It’s a nice place to m
 
 My initial plans (don’t worry, I’ll explain the messiness below):
 
-![](https://cdn-images-1.medium.com/max/2000/1*xWSW_4gpFjlNBbAJhnc9gw.png)
+![](cli-plans.png)
 
-![My messy block diagram — trying to implement directories](https://cdn-images-1.medium.com/max/2000/1*6xfE9cDIl1yI2PWuTaTJ3g.png)
+![My messy block diagram — trying to implement directories](cli-plans-2.png)
 
 The first block is straightforward, take some input text from the user, and hand it off to the command handler. The command handler has the functionality of parsing the input, and getting the specific command and arguments. Then, it will get the current path class (in red).
 
@@ -58,7 +58,7 @@ From there, it can get the function, run it, harvest the return value, and pass 
 
 There’s one issue left, how to implement global commands? The first thought I had was to make a global class that just had the global commands (this would work for commands like about, help, open, as they all have an essentially hard-coded output). However, this wouldn’t directly work for commands like cd and ls . They require path-specific knowledge to operate, however, should operate everywhere.
 
-![Path Structure](https://cdn-images-1.medium.com/max/2128/1*DAbIuo67H6Co0L3J-kSMQw.png)
+![Path Structure](cli-path.png)
 
 Each path instance will have its name, and pointers to it’s children (shown in red). We also have a global class, that contains the global functions. Maybe we could pass the path and path info to the global class, so cd and ls can do their jobs? Or maybe, we could combine them…
 
@@ -102,7 +102,7 @@ Additionally, I split up the global commands slightly differently as described i
 
 ### API Integration
 
-Something I enjoy about my current website is that all of the source files are JSON files, that are accessible publicly via an API. I go into more detail into that in my ‘[Building an Awesome Portfolio](https://medium.com/@owenmoogk/making-an-awesome-personal-portfolio-8ade5cfc52ce)’ blog, but in essence anything can pull the most up-to-date content from my website, without changing code.
+Something I enjoy about my current website is that all of the source files are JSON files, that are accessible publicly via an API. I go into more detail into that in my ‘[Building an Awesome Portfolio](https://owenmoogk.github.io/notes/making-a-portfolio)’ blog, but in essence anything can pull the most up-to-date content from my website, without changing code.
 
 Using this, I actually made the projects directory use this API, so if I ever add a project to my website, it will automatically be added to this CLI as well! It’s a nice way to only write things once and not have multiple sources to update, which I’m quite happy about (and saved me from hard-coding a lot of content)!
 
