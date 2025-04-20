@@ -2,8 +2,8 @@
 title: "Coding Adventures: Making an Awesome Personal Portfolio"
 date: Feb 7, 2025
 tags:
-  - tech
   - coding_adventures
+  - technology
 image: portfolio.png
 ---
 ## Coding Adventures: Making an Awesome Personal Portfolio
@@ -60,72 +60,77 @@ I stuck with this method until version 4 of my website when I decided to mix it 
 ### Attempt 2: XML
 
 Inspired by a friend of mine, I moved to XML to store project data. Not sure if I can give a reason as to why I chose XML, other than “I was stupid”. Nevertheless, I made it work. This was the first time I separated data from page structure, which was a game-changer. This was very important because code can get messy when the actual pages contain data. So, I tucked all my project information into a /assets folder and loaded it with some scrappy XML loading code. And when I say scrappy, I mean it (I guess I hadn’t heard about the Fetch API…):
+```javascript
+function loadProjects() {
+	// make new http request, its a js thing
+	var xmlhttp = new XMLHttpRequest();
 
-    function loadProjects() {
-        // make new http request, its a js thing
-        var xmlhttp = new XMLHttpRequest();
-    
-        // GET, file location and name, and some other propertie i forget
-        xmlhttp.open("GET", "../assets/projects.xml", true);
-        xmlhttp.send();
-    
-        // when there is a change in the request's state, 
-        // it'll check all is green and run the table loading function
-        xmlhttp.onreadystatechange = function () {
-            // all green
-            if (this.readyState == 4 && this.status == 200) {
-                loadEntries(this);
-            }
-            // cant find the xml
-            if (this.status == 404) {
-                console.log("couldn't find the xml file")
-            }
-        }
-    }
+	// GET, file location and name, and some other propertie i forget
+	xmlhttp.open("GET", "../assets/projects.xml", true);
+	xmlhttp.send();
+
+	// when there is a change in the request's state, 
+	// it'll check all is green and run the table loading function
+	xmlhttp.onreadystatechange = function () {
+		// all green
+		if (this.readyState == 4 && this.status == 200) {
+			loadEntries(this);
+		}
+		// cant find the xml
+		if (this.status == 404) {
+			console.log("couldn't find the xml file")
+		}
+	}
+}
+```
 
 This did the trick for loading XML documents, and then I had to render them to the page. Writing this now, I’m so used to React that I almost forgot how annoying this is with pure HTML / JS.
 
 The *official* way to do this is to use DOM techniques. That would go something like…
+```javascript
+let newDiv = document.createElement('div');
 
-    let newDiv = document.createElement('div');
-    
-    newDiv.id = 'myNewDiv'; // Setting an ID
-    newDiv.className = 'myClass'; // Setting a class
-    newDiv.textContent = 'Hello, World!'; // Setting the text content
-    
-    document.body.appendChild(newDiv); // Appending to the body element
+newDiv.id = 'myNewDiv'; // Setting an ID
+newDiv.className = 'myClass'; // Setting a class
+newDiv.textContent = 'Hello, World!'; // Setting the text content
+
+document.body.appendChild(newDiv); // Appending to the body element
+```
 
 But this is really tedious, so… innerHTML to the rescue!! (I’m not joking). I built the whole page using HTML strings:
 
-    if (elementType == 'image'){
-        txt += '<div class="img"><img src="'+elementData+'" class="img"></div>'
-    }
-    else if (elementType == 'render'){
-        txt += '<div class="render"><img src="'+elementData+'" class="img"></div>'
-    }
+```javascript
+if (elementType == 'image'){
+	txt += '<div class="img"><img src="'+elementData+'" class="img"></div>'
+}
+else if (elementType == 'render'){
+	txt += '<div class="render"><img src="'+elementData+'" class="img"></div>'
+}
+```
 
 Because I wasn’t yet using React, I still had different HTML pages for each project. They were smaller, but almost every project page was identical. They all did the same thing: load in metadata, make a body div, and load the project:
-
-    <!DOCTYPE html>
-    <html>
-        <head>
-            <title>Owen Moogk - Projects</title>
-            <meta name="author" content="Owen Moogk">
-            <meta name="keywords" content="Owen, Moogk, Owenmoogk">
-            <meta name="description" content="Just a little bit about me :)">
-            <link rel="stylesheet" href="../../../css/navbar.css">
-            <link rel="stylesheet" href="../../../css/projects/project-pages.css">
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap">
-            <script src="../../../js/navbar.js"></script>
-            <script src="../../../js/projects/project-pages.js"></script>
-        </head>
-        <body>
-            <div id="nav"></div>
-            <div class="body"></div>
-        </body>
-        <script>loadMenuItems()</script>
-        <script>loadProjectPage('../../../assets/projects/engine.xml')</script>
-    </html>
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Owen Moogk - Projects</title>
+		<meta name="author" content="Owen Moogk">
+		<meta name="keywords" content="Owen, Moogk, Owenmoogk">
+		<meta name="description" content="Just a little bit about me :)">
+		<link rel="stylesheet" href="../../../css/navbar.css">
+		<link rel="stylesheet" href="../../../css/projects/project-pages.css">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&display=swap">
+		<script src="../../../js/navbar.js"></script>
+		<script src="../../../js/projects/project-pages.js"></script>
+	</head>
+	<body>
+		<div id="nav"></div>
+		<div class="body"></div>
+	</body>
+	<script>loadMenuItems()</script>
+	<script>loadProjectPage('../../../assets/projects/engine.xml')</script>
+</html>
+```
 
 Except for the XML link used as an argument when loading the project page, I had to copy and paste this code for EVERY project. This isn’t a good solution.
 
@@ -165,8 +170,8 @@ Except I really hated making JSON files. I still had to get the structure right,
 The next step was rendering this markdown file. Turns out, there is a plugin called [Showdown](https://www.npmjs.com/package/react-showdown) that renders markdown files, so it was actually quite simple. I just had to render the component, and pass its related markdown!
 
 I put that code snippet below (for the full code check [my GitHub](http://github.com/owenmoogk)), and notice how I have to parse the markdown before loading it. This is so links are properly formatted (for images, videos, and hyperlinks), and point to the right directory. Otherwise, they would point to something that doesn’t exist. Although not strictly necessary (links could be typed in a more verbose manner), it means in the markdown file I can do something like `![Image](render1.png)` to load an image, and the parseMarkdown function will do the rest.
-
-    function parseMarkdown(data: string) {
+```jsx
+function parseMarkdown(data: string) {
     
       if (!data) return "";
     
@@ -183,30 +188,14 @@ I put that code snippet below (for the full code check [my GitHub](http://github
       return (data)
      }
     
-    // the actual markdown component
-    <MarkdownView
-          markdown={parseMarkdown(projectData ?? "")}
-          options={{ tables: true, emoji: true }}
-    />
+// the actual markdown component
+<MarkdownView
+	  markdown={parseMarkdown(projectData ?? "")}
+	  options={{ tables: true, emoji: true }}
+/>
+```
 
-Lastly, I load the metadata from the JSON file:
-
-    {
-        "title": "Hydraulic Arm",
-        "date": "May 31, 2018",
-        "types": [
-            "Solidworks"
-        ],
-        "description": "Hydraulic powered arm, with 3D printed claw.",
-        "featured": true
-    }
-
-    <div className="title">
-         {metaData.title}
-    </div>
-    <p className='subtitle'>{metaData.date}</p>
-
-And, it looks pretty good! You can see at the top the metadata being loaded, and below is the markdown content.
+Lastly, I load the metadata from the JSON file... and, it looks pretty good! You can see at the top the metadata being loaded, and below is the markdown content.
 
 ![](https://cdn-images-1.medium.com/max/2000/1*0SUzK5qeCuHyZj7V6jfQxQ.png)
 
@@ -217,59 +206,53 @@ One more thing. Since I’m a nerd, sometimes I make 3D renders. And *sometimes*
 ![](https://cdn-images-1.medium.com/max/2000/1*vNNs4NOxXjlGIX8U4e2dmw.png)
 
 I want to keep this feature, however this can’t be done in markdown. Luckily, Showdown has a feature for this. I mapped the H4 onto a custom component, so I could input something like this: #### overlay1.png,overlay2.png , and wrote a custom handle so the website would load the image overlay renderer. It looks like this:
-
-    <MarkdownView
-          markdown={parseMarkdown(projectData ?? "")}
-          options={{ tables: true, emoji: true }}
-          components={{
-           h4(props) {
-            console.log(props.children[0].split(","))
-            var [image1, image2] = props.children[0].split(",")
-            return (
-             <div className='sliderContainer'>
-              <ReactCompareImage 
-               leftImage={"/assets/projects/" + name + "/" + image1} 
-               rightImage={"/assets/projects/" + name + "/" + image2} 
-               aspectRatio='taller' 
-               handle={
-                <button style={{
-                 height: '50px',
-                 outline: 'none',
-                 width: '10px',
-                 border: 'none',
-                 borderRadius: '5px',
-                }}></button>
-              } />
-              <span className='subtitle'>Move the slider to see inside.</span>
-             </div>
-            )
-           }
-          }}
-         />
+```jsx
+<MarkdownView
+  markdown={parseMarkdown(projectData ?? "")}
+  options={{ tables: true, emoji: true }}
+  components={{
+   h4(props) {
+	console.log(props.children[0].split(","))
+	var [image1, image2] = props.children[0].split(",")
+	return (
+	 <div className='sliderContainer'>
+	  <ReactCompareImage 
+	   leftImage={"/assets/projects/" + name + "/" + image1} 
+	   rightImage={"/assets/projects/" + name + "/" + image2} 
+	   aspectRatio='taller' 
+	   handle={
+		<button style={{
+		 height: '50px',
+		 outline: 'none',
+		 width: '10px',
+		 border: 'none',
+		 borderRadius: '5px',
+		}}></button>
+	  } />
+	  <span className='subtitle'>Move the slider to see inside.</span>
+	 </div>
+	)
+   }
+  }}
+ />
+```
 
 This tells it that when it sees an H4, it will pass it to my custom handler, which will render the ReactCompareImage component instead of a regular H4. This way, I maintain my custom functionality while not having to make a custom parser, or use JSON!
-> # “Great success!!” — Borat
+> “Great success!!” — Borat
 
 Phew, that was a lot. It’s a bit all over the place, but that was the journey I followed. To recap, my ‘optimal’ (at least so far) project page flow is as follows:
 
-* Project metadata stored in JSON
-
+* Project metadata stored in JSON\
 * Project content stored in markdown
-
 * Project directory, just a list of all of the projects (JSON)
-
 * React, using the ShowdownJS to render, and a custom handler for the H4, which allows for custom component rendering.
 
 Why this is optimal (for me):
 
 * Adding a project is super easy (add to directory, make metadata, write content)
-
 * It’s flexible. Everywhere that I need projects ( /projects , /projectDirectory , /project/[projectName] ), the data is fully accessible. Since it’s all available at https://owenmoogk.github.io/assets/projects , even other projects that I have made can use this data, on different websites and domains.
-
 * Pages are dynamic. I can change the featured flag on a project, and it changes where it loads on the website. Similarly, I can change the date or tech used, and the searching features respond to that.
-
 * When making a project, I really need to do the bare minimum. My goal was to ONLY be adding content (and not boilerplate code), which is almost fully true (the only exceptions to this are adding to the directory, and a few JSON brackets in the metadata, however, this is acceptable for me).
-
 ### GitHub Integration
 
 The last point I want to touch on, and why I think organizing projects this way is optimal, are the associated integrations that come along with it. Most of my projects have GitHub repos associated with them. So, by default, I add a link to the GitHub repo, with a flag to add a custom one or turn it off in the metadata. This way, if I make a project called f1-stats , the website *automatically *links to a GitHub repo called /f1-stats . One needs to ensure a project has the same handle on the website as it does on GitHub, however, if this isn’t the case it’s very simple to add an override for a custom link.

@@ -43,8 +43,8 @@
         "date": "Mar 29, 2024",
         "title": "Spotify API Fun, Design Planning, and a Musical Guessing Game",
         "tags": [
-            "tech",
-            "personal"
+            "personal",
+            "technology"
         ],
         "image": "images/marble_machine.png",
         "file_path": "https://owenmoogk.github.io/blogs/March-29-2024-2.md",
@@ -114,8 +114,8 @@
         "date": "Feb 7, 2025",
         "title": "Coding Adventures: Making an Awesome Personal Portfolio",
         "tags": [
-            "tech",
-            "coding_adventures"
+            "coding_adventures",
+            "technology"
         ],
         "image": "images/portfolio.png",
         "file_path": "https://owenmoogk.github.io/blogs/making-a-portfolio.md",
@@ -166,7 +166,7 @@
         "title": "Pretending to Hack GitHub, and some Git Security Notes",
         "tags": [
             "reflection",
-            "tech"
+            "technology"
         ],
         "image": "images/git_commit.png",
         "file_path": "https://owenmoogk.github.io/blogs/March-29-2024.md",
@@ -187,7 +187,7 @@
         "title": "Project Inspiration, Cryptography, and Minecraft Java(script)",
         "tags": [
             "internet",
-            "tech"
+            "technology"
         ],
         "image": "images/minecraft.png",
         "file_path": "https://owenmoogk.github.io/blogs/May-12-2024.md",
@@ -208,7 +208,7 @@
         "title": "Coding Adventures: Making a CLI-themed Personal Website",
         "tags": [
             "coding_adventures",
-            "tech"
+            "technology"
         ],
         "image": "images/cli-website.png",
         "file_path": "https://owenmoogk.github.io/blogs/cli-website.md",
