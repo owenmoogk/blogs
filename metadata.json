@@ -111,7 +111,7 @@
         "file_name": "May-2-2024"
     },
     {
-        "date": null,
+        "date": "Feb 7, 2025",
         "title": "Coding Adventures: Making an Awesome Personal Portfolio",
         "tags": [
             "tech",
@@ -204,13 +204,13 @@
         "file_name": "May-21-2024"
     },
     {
-        "date": null,
+        "date": "Feb 22, 2025",
         "title": "Coding Adventures: Making a CLI-themed Personal Website",
         "tags": [
             "coding_adventures",
             "tech"
         ],
-        "image": "images/portfolio.png",
+        "image": "images/cli-website.png",
         "file_path": "https://owenmoogk.github.io/blogs/cli-website.md",
         "file_name": "cli-website"
     },

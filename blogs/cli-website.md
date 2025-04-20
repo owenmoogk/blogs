@@ -1,10 +1,10 @@
 ---
 title: "Coding Adventures: Making a CLI-themed Personal Website"
-date: 
+date: Feb 22, 2025
 tags:
   - coding_adventures
   - tech
-image: portfolio.png
+image: cli-website.png
 ---
 ## Coding Adventures: Making a CLI-themed Personal Website
 

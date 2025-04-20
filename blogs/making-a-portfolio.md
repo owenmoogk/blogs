@@ -1,6 +1,6 @@
 ---
 title: "Coding Adventures: Making an Awesome Personal Portfolio"
-date: 
+date: Feb 7, 2025
 tags:
   - tech
   - coding_adventures
