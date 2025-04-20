@@ -32,7 +32,7 @@ By using the same homepage, it probably also makes fetch requests easier too (th
 
 As with *almost all* projects, I got off to the races. I knew this was bad… but I thought I had it figured out. I did a good job of getting ChatGPT to write the general page layout and CSS, and had to do some fiddling with the input focus, because if the user clicked off of the input box and started typing, the website still had to recognize it. And it actually looked decent!
 
-![Using some basic commands (ls, help, about)](images/cli-demo.png)
+![Using some basic commands (ls, help, about)](cli-demo.png)
 
 Some small issues, but generally going well! The bigger issue: I didn’t have an idea of how I wanted to implement file paths.
 
