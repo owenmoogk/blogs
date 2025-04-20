@@ -4,7 +4,7 @@ date:
 tags:
   - coding_adventures
   - tech
-image: portfolio.png
+image: cli-website.png
 ---
 ## Coding Adventures: Making a CLI-themed Personal Website
 
