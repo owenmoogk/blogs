@@ -5,7 +5,6 @@ tags:
   - reflection
 image: rss.png
 ---
-
 ## Blogging… The early 2000s, decentralized, RSS baby.
 
 In the last few years, I’ve fazed out of using common social media. Instagram is “poison”, causing more mental health issues in the current generation than anything ever before, and Facebook is a common time waster in even the middle-aged and ‘boomer’ generations.
